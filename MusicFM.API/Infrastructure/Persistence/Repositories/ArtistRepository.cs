@@ -1,0 +1,79 @@
+using Microsoft.EntityFrameworkCore;
+using MusicFM.API.Core;
+using MusicFM.API.Features.Interfaces;
+using MusicFM.API.Infrastructure.Mapping;
+
+namespace MusicFM.API.Infrastructure.Persistence.Repositories;
+
+public class ArtistRepository : IArtistRepository
+{
+    private readonly MusicFmDbContext _context;
+
+    public ArtistRepository(MusicFmDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task CreateArtistAsync(Artist artist, CancellationToken cancellationToken)
+    {
+        var tagsId = artist.Tags.Select(t => t.Id).ToList();
+        var existingTags = await _context.Tags.Where(t => tagsId.Contains(t.Id)).ToListAsync(cancellationToken);
+        var artistDb = artist.ToDb();
+        artistDb.Tags = existingTags;
+        await _context.Artists.AddAsync(artistDb, cancellationToken);
+    }
+
+
+    public async Task<bool> IsArtistExistsAsync(Guid mbid, CancellationToken cancellationToken)
+    {
+        return await _context.Artists.AnyAsync(a => a.Mbid == mbid, cancellationToken);
+    }
+
+    public async Task UpdateArtistTags(Guid mbid, Tag tag, CancellationToken cancellationToken)
+    {
+        var artistDb = await _context.Artists.Include(artistDb => artistDb.Tags)
+            .FirstOrDefaultAsync(a => a.Mbid == mbid, cancellationToken);
+        if (artistDb == null)
+        {
+            throw new InvalidOperationException("There is no Artist with such mbID");
+        }
+
+        var tagDb = await _context.Tags.FirstOrDefaultAsync(t => t.Id == tag.Id, cancellationToken);
+
+        if (!artistDb.Tags.Contains(tagDb))
+        {
+            artistDb.Tags.Add(tagDb);
+        }
+    }
+
+    public async Task UpdateArtistsAlbumsAsync(Guid mbid, Album album, CancellationToken cancellationToken)
+    {
+        var artistDb = await _context.Artists.Include(ar => ar.Albums)
+            .FirstOrDefaultAsync(a => a.Mbid == mbid, cancellationToken);
+        if (artistDb == null)
+        {
+            throw new InvalidOperationException("There is no Artist with such mbID");
+        }
+
+        var albumDb = await _context.Albums.FirstOrDefaultAsync(ar => ar.Mbid == album.Mbid, cancellationToken);
+        if (albumDb == null)
+        {
+            albumDb = album.ToDb();
+            artistDb.Albums.Add(albumDb);
+        }
+        else
+        {
+            artistDb.Albums.Add(albumDb);
+        }
+    }
+
+    public async Task<List<Artist>> GetAllArtistsAsync(CancellationToken cancellationToken)
+    {
+        return await _context
+            .Artists
+            .Include(ar => ar.Albums)
+            .Include(a => a.Tags)
+            .Select(art => art.ToDomain())
+            .ToListAsync(cancellationToken);
+    }
+}

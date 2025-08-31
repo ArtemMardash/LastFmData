@@ -1,0 +1,50 @@
+﻿version: '3.9'
+services:
+  api:
+    build:
+      context: ./MusicFM.API
+      dockerfile: Dockerfile
+    image: musicfm_api
+    container_name: musicfm_api
+    ports:
+      - "5156:80"
+    environment:
+      - "ConnectionStrings__DefaultConnectionString=Host=db;Port=5432;Database=LastFm;Username=postgres;Password=postgres"
+      - "LastFm__ApplicationName=LastFmDemo"
+      - "LastFm__ApiKey=8d30f5b817dc2d0f1d972e8f2eb6b656"
+      - "LastFm__SecretKey=8d5029948cc8b099e227b62ce6e3ff00"
+      - "LastFm__Login=ArtemMardash"
+      - "LastFm__Password=Mister-2281337"
+      - "ASPNETCORE_HTTP_PORTS=80"
+    depends_on:
+      - db
+
+  ui:
+    build:
+      context: .
+      dockerfile: MusicFM.UI/Dockerfile
+    image: musicfm_ui
+    container_name: musicfm_ui
+    ports:
+      - "5263:80"
+    environment:
+      - "ASPNETCORE_HTTP_PORTS=80"
+      - "ConnectionStrings__DefaultConnectionString=Host=db;Port=5432;Database=LastFm;Username=postgres;Password=postgres"
+    depends_on:
+      - db
+      - api
+
+  db:
+    image: postgres:13.10
+    container_name: lastfm_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: LastFm
+    ports:
+      - "5432:5432"
+    volumes:
+      - lastfm_data:/var/lib/postgresql/data
+
+volumes:
+  lastfm_data:

@@ -1,0 +1,86 @@
+@page "/Artists"
+@using MusicFM.UI.Services
+@inject ArtistService artistService
+
+<h1>Artists</h1>
+
+
+@if (_artists == null)
+{
+<p>
+    <em>Loading...</em>
+</p>
+}
+else if (!_artists.Any())
+{
+<p>
+    <em>No artists found.</em>
+</p>
+}
+else
+{
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>MBID</th>
+        <th>Name</th>
+        <th>URL</th>
+        <th>Tags</th>
+        <th>Albums</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var artist in _artists)
+    {
+    <tr>
+        <td>@artist.Mbid</td>
+        <td>@artist.Name</td>
+        <td>
+            <a href="@artist.Url" target="_blank">Link</a>
+        </td>
+        <td>
+            @if (artist.TagsNames.Any())
+            {
+            <ul>
+                @foreach (var tag in artist.TagsNames)
+                {
+                <li>@tag</li>
+                }
+            </ul>
+            }
+            else
+            {
+            <em>No tags</em>
+            }
+        </td>
+        <td>
+            @if (artist.AlbumsNames.Any())
+            {
+            <ul>
+                @foreach (var album in artist.AlbumsNames)
+                {
+                <li>@album</li>
+                }
+            </ul>
+            }
+            else
+            {
+            <em>No albums</em>
+            }
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+}
+
+@code {
+private List<ArtistResultDto>? _artists;
+
+protected override async Task OnInitializedAsync()
+{
+var dataDto = await artistService.GetArtistsAsync(CancellationToken.None);
+_artists = dataDto.Result;
+}
+
+}
