@@ -11,6 +11,9 @@ public class GetAlbumsByArtistsUseCase: IGetAlbumsByArtistsUseCase
         _client = client;
     }
 
+    /// <summary>
+    /// Method to get all albums by all artists
+    /// </summary>
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         await _client.GetAlbumsByArtistsAsync(cancellationToken);

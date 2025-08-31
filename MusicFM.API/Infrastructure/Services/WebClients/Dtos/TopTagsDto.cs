@@ -1,5 +1,8 @@
 namespace MusicFM.API.Infrastructure.Services.WebClients.Dtos;
 
+/// <summary>
+/// Json structure of tags
+/// </summary>
 public class TopTagDto
 {
     public TopTagsDto toptags { get; set; }  

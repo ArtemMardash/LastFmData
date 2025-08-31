@@ -16,11 +16,18 @@ public class UnitOfWork: IUnitOfWork
         _context.Dispose();
     }
 
+    /// <summary>
+    /// Save changes
+    /// </summary>
     public void SaveChanges()
     {
         _context.SaveChanges();
     }
 
+    /// <summary>
+    /// Save changes async
+    /// </summary>
+    /// <param name="cancellationToken"></param>
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         await _context.SaveChangesAsync(cancellationToken);

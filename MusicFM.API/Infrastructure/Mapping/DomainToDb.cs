@@ -5,6 +5,9 @@ namespace MusicFM.API.Infrastructure.Mapping;
 
 public static class DomainToDb
 {
+    /// <summary>
+    /// Tag to tag Db
+    /// </summary>
     public static TagDb ToDb(this Tag tag)
     {
         return new TagDb
@@ -16,6 +19,11 @@ public static class DomainToDb
         };
     }
 
+    /// <summary>
+    /// Album to AlbumDb
+    /// </summary>
+    /// <param name="album"></param>
+    /// <returns></returns>
     public static AlbumDb ToDb(this Album album)
     {
         return new AlbumDb
@@ -27,6 +35,9 @@ public static class DomainToDb
         };
     }
 
+    /// <summary>
+    /// Artist to ArtistDb. List of tgas maps in repositories
+    /// </summary>
     public static ArtistDb ToDb(this Artist artist)
     {
         return new ArtistDb

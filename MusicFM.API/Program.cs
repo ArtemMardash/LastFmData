@@ -32,7 +32,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-
+//Get method to get tags
 app.MapGet("/topTags", async (IGetTopTagsUseCase useCase, CancellationToken cancellationToken) =>
     {
         await useCase.ExecuteAsync(cancellationToken);
@@ -40,6 +40,7 @@ app.MapGet("/topTags", async (IGetTopTagsUseCase useCase, CancellationToken canc
     .WithName("GetTopTags")
     .WithOpenApi();
 
+//Get method to get artists
 app.MapGet("/topArtists", async (IGetTopArtistsByTagsUseCases useCase, CancellationToken cancellationToken) =>
     {
         await useCase.ExecuteAsync(cancellationToken);
@@ -47,13 +48,14 @@ app.MapGet("/topArtists", async (IGetTopArtistsByTagsUseCases useCase, Cancellat
     .WithName("GetTopArtists")
     .WithOpenApi();
 
+//Get method to get albums
 app.MapGet("/topAlbums", async (IGetAlbumsByArtistsUseCase useCase, CancellationToken cancellationToken) =>
     {
         await useCase.ExecuteAsync(cancellationToken);
     })
     .WithName("GetTopAlbums")
     .WithOpenApi();
-
+//Get all data for UI
 app.MapGet("GetAllData", async (IGetAllDataUseCase useCase, CancellationToken cancellationToken) =>
     {
         return await useCase.ExecuteAsync(cancellationToken);

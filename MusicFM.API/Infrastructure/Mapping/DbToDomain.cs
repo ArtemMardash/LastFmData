@@ -5,16 +5,25 @@ namespace MusicFM.API.Infrastructure.Mapping;
 
 public static class DbToDomain
 {
+    /// <summary>
+    /// TagDb to Tag
+    /// </summary>
     public static Tag ToDomain(this TagDb tagDb)
     {
         return new Tag(tagDb.Id, tagDb.Name, tagDb.Reach, tagDb.Count);
     }
 
+    /// <summary>
+    /// AlbumDb to album
+    /// </summary>
     public static Album ToDomain(this AlbumDb albumDb, Artist artist)
     {
         return new Album(albumDb.Name, albumDb.Mbid, artist, albumDb.Playcount);
     }
 
+    /// <summary>
+    /// ArtistDb to Artist
+    /// </summary>
     public static Artist ToDomain(this ArtistDb artistDb)
     {
         var result = new Artist(

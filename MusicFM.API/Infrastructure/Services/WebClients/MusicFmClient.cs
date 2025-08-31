@@ -25,6 +25,9 @@ public class MusicFmClient
         _settings = settings.Value;
     }
 
+    /// <summary>
+    /// Get top tags
+    /// </summary>
     public async Task GetTopTagsAsync(CancellationToken cancellationToken)
     {
         var uri = $"2.0/?method=tag.getTopTags&api_key={_settings.ApiKey}&format=json";
@@ -39,6 +42,9 @@ public class MusicFmClient
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
+    /// <summary>
+    /// Get top artists by tags
+    /// </summary>
     public async Task GetTopArtistsByTagsAsync(CancellationToken cancellationToken)
     {
         var tagNames = await _tagRepository.GetAllTagsNameAsync(cancellationToken);
@@ -75,6 +81,9 @@ public class MusicFmClient
         }
     }
 
+    /// <summary>
+    /// Get albums by all artists
+    /// </summary>
     public async Task GetAlbumsByArtistsAsync(CancellationToken cancellationToken)
     {
         var artists = await _artistRepository.GetAllArtistsAsync(cancellationToken);

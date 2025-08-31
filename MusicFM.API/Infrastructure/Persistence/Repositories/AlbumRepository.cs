@@ -14,6 +14,9 @@ public class AlbumRepository: IAlbumRepository
         _context = context;
     }
 
+    /// <summary>
+    /// Create album for db
+    /// </summary>
     public async Task CreateAlbumAsync(Album album, CancellationToken cancellationToken)
     {
         var existedAlbum = await _context.Albums.FirstOrDefaultAsync(a => a.Mbid == album.Mbid, cancellationToken);
@@ -23,6 +26,9 @@ public class AlbumRepository: IAlbumRepository
         }
     }
 
+    /// <summary>
+    /// Get all albumsof the artist
+    /// </summary>
     public async Task<List<Album>> GetAlbumsByArtistId(Guid artistsMbid, CancellationToken cancellationToken)
     {
         var artist = await _context.Artists.FirstOrDefaultAsync(a => a.Mbid == artistsMbid, cancellationToken);

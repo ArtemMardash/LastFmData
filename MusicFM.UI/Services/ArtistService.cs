@@ -9,6 +9,9 @@ public class ArtistService
         _httpClient = httpClient;
     }
 
+    /// <summary>
+    /// Method to get all data using Uri
+    /// </summary>
     public async Task<DataDto?> GetArtistsAsync(CancellationToken cancellationToken)
     {
         return await _httpClient.GetFromJsonAsync<DataDto>("GetAllData", cancellationToken: cancellationToken);

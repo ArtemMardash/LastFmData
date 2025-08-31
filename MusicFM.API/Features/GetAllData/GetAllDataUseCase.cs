@@ -11,6 +11,9 @@ public class GetAllDataUseCase: IGetAllDataUseCase
         _repository = repository;
     }
 
+    /// <summary>
+    /// Method to get all data
+    /// </summary>
     public async Task<GetAllDataResponceDto> ExecuteAsync(CancellationToken cancellationToken)
     {
         var list = await _repository.GetAllArtistsAsync(cancellationToken);

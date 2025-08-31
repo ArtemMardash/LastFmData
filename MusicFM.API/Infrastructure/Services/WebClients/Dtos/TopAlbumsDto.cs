@@ -1,5 +1,8 @@
 namespace MusicFM.API.Infrastructure.Services.WebClients.Dtos;
 
+/// <summary>
+/// Json structure of albums
+/// </summary>
 public class TopAlbumsDto
 {
     public TopAlbums Topalbums { get; set; }

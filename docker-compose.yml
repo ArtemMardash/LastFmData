@@ -1,11 +1,7 @@
 ﻿version: '3.9'
 services:
   api:
-    build:
-      context: ./MusicFM.API
-      dockerfile: Dockerfile
     image: musicfm_api
-    container_name: musicfm_api
     ports:
       - "5156:80"
     environment:
@@ -20,11 +16,7 @@ services:
       - db
 
   ui:
-    build:
-      context: .
-      dockerfile: MusicFM.UI/Dockerfile
     image: musicfm_ui
-    container_name: musicfm_ui
     ports:
       - "5263:80"
     environment:
@@ -35,16 +27,11 @@ services:
       - api
 
   db:
-    image: postgres:13.10
-    container_name: lastfm_db
+    image: 'postgres:13.10'
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: LastFm
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
-      - lastfm_data:/var/lib/postgresql/data
-
-volumes:
-  lastfm_data:
+      - /var/lib/postgres/data

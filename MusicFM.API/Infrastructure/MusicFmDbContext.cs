@@ -18,7 +18,7 @@ public class MusicFmDbContext: DbContext
     
     
     /// <summary>
-    /// Data to db
+    /// Data to db + relations
     /// </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

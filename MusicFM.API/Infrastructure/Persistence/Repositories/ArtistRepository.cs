@@ -14,6 +14,9 @@ public class ArtistRepository : IArtistRepository
         _context = context;
     }
 
+    /// <summary>
+    /// Create entity Artist for db
+    /// </summary>
     public async Task CreateArtistAsync(Artist artist, CancellationToken cancellationToken)
     {
         var tagsId = artist.Tags.Select(t => t.Id).ToList();
@@ -24,11 +27,17 @@ public class ArtistRepository : IArtistRepository
     }
 
 
+    /// <summary>
+    /// Method to check if Artist exist
+    /// </summary>
     public async Task<bool> IsArtistExistsAsync(Guid mbid, CancellationToken cancellationToken)
     {
         return await _context.Artists.AnyAsync(a => a.Mbid == mbid, cancellationToken);
     }
 
+    /// <summary>
+    /// Update artist tags
+    /// </summary>
     public async Task UpdateArtistTags(Guid mbid, Tag tag, CancellationToken cancellationToken)
     {
         var artistDb = await _context.Artists.Include(artistDb => artistDb.Tags)
@@ -46,6 +55,9 @@ public class ArtistRepository : IArtistRepository
         }
     }
 
+    /// <summary>
+    /// Update artists albums
+    /// </summary>
     public async Task UpdateArtistsAlbumsAsync(Guid mbid, Album album, CancellationToken cancellationToken)
     {
         var artistDb = await _context.Artists.Include(ar => ar.Albums)
@@ -67,6 +79,9 @@ public class ArtistRepository : IArtistRepository
         }
     }
 
+    /// <summary>
+    /// Get all artist with tags and albums
+    /// </summary>
     public async Task<List<Artist>> GetAllArtistsAsync(CancellationToken cancellationToken)
     {
         return await _context

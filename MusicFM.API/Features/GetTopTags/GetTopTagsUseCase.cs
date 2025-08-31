@@ -11,6 +11,9 @@ public class GetTopTagsUseCase: IGetTopTagsUseCase
         _client = client;
     }
 
+    /// <summary>
+    /// Method to get top tags
+    /// </summary>
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         await _client.GetTopTagsAsync(cancellationToken);
