@@ -30,33 +30,33 @@ The project utilizes the following technologies and libraries:
 ## Setup
 
 ### 1. Clone the repository
-
+```bash
 git clone https://github.com/<ArtemMardash/LastFmData.git
 cd LastFmData
-
+```
 ### 2. Configure the database connection and Last.fm credentials
 
-In `LastFm.API/appsettings.json`, replace the placeholder values:
+In `MusicFM.API/appsettings.json`, replace the placeholder values:
 
-"ConnectionStrings": {
-  "DefaultConnectionString": "Host=localhost;Port=5432;Database=lastFM ;Username=postgres;Password=YOUR_DB_PASSWORD"
-},
 "LastFm": {
+  "ApplicationName": "MusicFM",
   "ApiKey": "YOUR_LASTFM_API_KEY",
-  "ApiSecret": "YOUR_LASTFM_API_SECRET"
+  "SecretKey": "YOUR_LASTFM_SECRET_KEY",
+  "Login": "YOUR_LASTFM_LOGIN",
+  "Password": "YOUR_LASTFM_PASSWORD"
 }
 
-## 📖 Usage
+##   Usage
 
 1. Start the **API service** (`dotnet run` in `LastFm.API`).  
-   - API will be available at: `https://localhost:5156`
+   - API will be available at: `http://localhost:5156` or `https://localhost:7269`
      -Call
 2. Load data into the database by calling the API endpoints in order (you can use Postman, cURL, or a browser for GET requests):
  - GET /topTags → loads top tags from Last.fm
  - GET /topArtists → loads artists for a given tag
  - GET /topAlbums → loads albums for a given artist
 3. Start the **UI service** (`dotnet run` in `LastFm.UI`).  
-   - UI will be available at: `https://localhost:5001`  
+   - UI will be available at: `http://localhost:5263`  or `https://localhost:7040`
 4. Open the UI in a browser.  
 5. Navigate to the **Artists** page in the sidebar.  
    - The UI calls the API → which loads artists, albums, and tags from the database.  
